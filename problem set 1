@@ -1,0 +1,57 @@
+#problem 1
+def Fibonacci(n):
+
+    if n == 0:
+        return 0
+    elif n == 1 or n == 2:
+        return 1
+ 
+    else:
+        return Fibonacci(n-1) + Fibonacci(n-2)
+
+num_terms = 10
+
+# Generate and print the Fibonacci series up to num_terms
+fib_series = [Fibonacci(i) for i in range(num_terms)]
+print(f"Fibonacci Series up to {num_terms} terms:")
+print(fib_series)
+
+#problem 2
+list =  [0,1,2,3,4,5,6,7]
+
+# Display numbers at odd indices
+odd_index = list[0::2]
+print(odd_index)
+
+#problem 3
+list = [100, 127, 143, 17]
+list.reverse()
+print(list)
+
+#problem 4
+print_words = len(set("ChatGPT has created this text to provide tips on creating interesting paragraphs. First, start with a clear topic sentence that introduces the main idea. Then, support the topic sentence with specific details, examples, and evidence. Vary the sentence length and structure to keep the reader engaged. Finally, end with a strong concluding sentence that summarizes the main points.Remember, practice makes perfect!".split()))
+print(print_words)
+
+#problem 5
+def countVowels(word):
+    vowels = ["a","e","i","o","u"]
+    return sum(word.lower().count(v) for v in vowels)
+    
+print(countVowels("data science"))
+
+#problem 6
+list = ['tiger', 'elephant', 'monkey', 'zebra', 'panther']
+print([word.upper().replace('A', 'A', ) for word in list])
+
+#problem 7
+for num in range(1, 16):
+    if num % 2 == 0:
+        print("This number is even:",num)
+    else:
+        print("This number is odd:",num)
+
+#problem8
+num1 = int(input("Enter a number"))
+num2 = int(input("Enter a second"))
+sum = num1+num2
+print(sum)
