@@ -1,0 +1,52 @@
+#problem 1
+import numpy as np
+A = np.array([[1, 2, 3],
+              [4, 5, 6]])
+
+B = np.array([[7, 8, 9],
+              [10, 11, 12]])
+
+stack1 = np.vstack((A, B))
+stack2 = np.hstack((A, B))
+
+print("Array A:")
+print(A)
+print("Array B:")
+print(B)
+print("Vertically Stacked:")
+print(stack1)
+print("Horizontally Stacked:")
+print(stack2)
+
+#problem2
+common = np.intersect1d(A, B)
+print(common)
+
+#problem3
+range = np.where((A >=5) & (A<=10))
+num= A[range]
+print(num)
+
+#problem4
+url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
+iris_2d = np.genfromtxt(url, delimiter=',', dtype='float', usecols=[0, 1, 2, 3])
+rows = iris_2d[(iris_2d[:, 2] > 1.5) & (iris_2d[:, 0] < 5.0)]
+print(rows)
+
+#problem5
+import pandas as pd
+url = 'https://raw.githubusercontent.com/selva86/datasets/master/Cars93_miss.csv'
+df = pd.read_csv(url)
+data= df.iloc[::20, :][['Manufacturer', 'Model', 'Type']]
+print(data)
+
+#problem6
+min_price = df['Min.Price'].mean()
+max_price= df['Max.Price'].mean()
+df['Min.Price'].fillna(min_price, inplace=True)
+df['Max.Price'].fillna(max_price, inplace=True)
+
+#problem7
+sums = df.sum(axis=1)
+sums_100= sums > 100
+result = df[sums_100]
