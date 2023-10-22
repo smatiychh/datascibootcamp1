@@ -1,0 +1,33 @@
+#problem1
+SELECT COUNT(*) AS totalorders
+FROM Orders
+WHERE OrderDate = '2023-03-18' AND OrderStatus = 'Completed';
+
+#problem2
+SELECT COUNT(*) AS ordersjohn
+FROM Orders
+WHERE OrderDate = '2023-03-18'
+AND FirstName = 'John'
+AND LastName = 'Doe'
+AND OrderStatus = 'Completed';
+
+#problem3
+SELECT COUNT(*) AS customers_total, AVG(amt) AS averageamt
+FROM Orders
+WHERE YEAR(OrderDate) = 2023 AND MONTH(OrderDate) = 1;
+
+#problem4   
+SELECT Name
+FROM Departments
+WHERE YEAR(Year) = 2022
+GROUP BY DepartmentName
+HAVING SUM(Revenue) < 600;
+
+#problem5
+SELECT MAX(OrderAmount) AS revenuemost, MIN(OrderAmount) AS revenueleast
+FROM Orders;
+
+#problem6
+SELECT *
+FROM Orders
+WHERE OrderAmount = (SELECT MAX(OrderAmount) FROM Orders);
