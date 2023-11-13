@@ -1,0 +1,14 @@
+1. How do you assess the statistical significance of an insight?
+Answer: You can use a t-test, chi-squared test, or ANOVA anallysis, based on the specifics of the problem. 
+2. What is the Central Limit Theorem? Explain it. Why is it important?
+Answer: The Central Limit Theorem  states that the sampling distribution of the sample means approaches a normal distribution as the sample size increases.
+3. What is the statistical power?
+Answer: Statistical power is the probability that a test will reject a false null hypothesis when there is none. 
+4. How do you control for biases?
+Answer: You can use methods such as randomization, blinding,  and controlling for confounders.
+5. What are confounding variables?
+Answer: These are variables that affect both the outcome and the treatment.
+6. What is A/B testing?
+This is a specific procedure where two versions  are shown to different segments of users at the same time to determine which version performs better.
+7. What are confidence intervals?
+Answer: These are intervals of numbers where the true value of the outcome lies. 
