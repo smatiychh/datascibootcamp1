@@ -1,0 +1,100 @@
+import pandas as pd
+
+# Loading the uploaded data
+file_path = '/mnt/data/train.csv'
+data = pd.read_csv(file_path)
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+import numpy as np
+
+data.head()
+
+categorical_cols = data.select_dtypes(include=['object', 'bool']).columns
+numerical_cols = data.select_dtypes(include=['int64', 'float64']).columns
+
+
+numerical_cols = numerical_cols.drop('id')
+
+
+numerical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='mean')), # Imputing missing values with mean
+    ('scaler', StandardScaler()) # Scaling numerical features
+])
+
+
+categorical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent', fill_value='missing')), # Imputing missing values with most frequent value
+    ('onehot', OneHotEncoder(handle_unknown='ignore')) # One hot encoding categorical features
+])
+
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', numerical_transformer, numerical_cols),
+        ('cat', categorical_transformer, categorical_cols)
+    ])
+
+# Separating the target variable (salary)
+X = data.drop('salary', axis=1)
+y = data['salary']
+
+# Splitting data into train and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+
+# Applying the preprocessing to the training data
+X_train_preprocessed = preprocessor.fit_transform(X_train)
+X_test_preprocessed = preprocessor.transform(X_test)
+
+# Checking the shape of the processed data
+X_train_preprocessed.shape, X_test_preprocessed.shape
+X = data.drop(['salary', 'id', 'timestamp'], axis=1)  # Dropping 'id' and 'timestamp' as they are not relevant for prediction
+y = data['salary']
+
+# Identifying categorical and numerical columns after dropping 'id' and 'timestamp'
+categorical_cols = X.select_dtypes(include=['object', 'bool']).columns
+numerical_cols = X.select_dtypes(include=['int64', 'float64']).columns
+
+# Applying the preprocessing pipelines
+X_train_preprocessed = preprocessor.fit_transform(X_train)
+X_test_preprocessed = preprocessor.transform(X_test)
+
+# Checking the shape of the processed data
+X_train_preprocessed.shape, X_test_preprocessed.shape
+
+from sklearn.linear_model import Ridge, Lasso
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+from sklearn.tree import DecisionTreeRegressor
+
+# 1. Training Ridge Regression Model
+ridge_model = Ridge(alpha=1.0)  # Default alpha value
+ridge_model.fit(X_train_preprocessed, y_train)
+ridge_pred = ridge_model.predict(X_test_preprocessed)
+
+# 2. Training Lasso Regression Model
+lasso_model = Lasso(alpha=1.0)  # Default alpha value
+lasso_model.fit(X_train_preprocessed, y_train)
+lasso_pred = lasso_model.predict(X_test_preprocessed)
+
+# 3. Training Decision Tree Model
+tree_model = DecisionTreeRegressor(random_state=0)
+tree_model.fit(X_train_preprocessed, y_train)
+tree_pred = tree_model.predict(X_test_preprocessed)
+
+# 4. Computing Errors for each model
+# Ridge Errors
+ridge_mae = mean_absolute_error(y_test, ridge_pred)
+ridge_mse = mean_squared_error(y_test, ridge_pred)
+
+# Lasso Errors
+lasso_mae = mean_absolute_error(y_test, lasso_pred)
+lasso_mse = mean_squared_error(y_test, lasso_pred)
+
+# Decision Tree Errors
+tree_mae = mean_absolute_error(y_test, tree_pred)
+tree_mse = mean_squared_error(y_test, tree_pred)
+
+ridge_mae, ridge_mse, lasso_mae, lasso_mse, tree_mae, tree_mse
+
